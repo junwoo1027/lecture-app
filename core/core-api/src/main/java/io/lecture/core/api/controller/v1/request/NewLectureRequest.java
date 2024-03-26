@@ -9,7 +9,7 @@ public record NewLectureRequest(
         String hall,
         int seats,
         LocalDateTime startAt,
-        String content
+        String description
 ) {
     public Lecture toLecture() {
         return new Lecture(
@@ -17,7 +17,7 @@ public record NewLectureRequest(
                 this.hall,
                 this.seats,
                 this.startAt,
-                this.content
+                this.description
         );
     }
 }
