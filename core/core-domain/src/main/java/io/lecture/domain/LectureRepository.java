@@ -1,4 +1,4 @@
-package io.lecture.core.api.domain;
+package io.lecture.domain;
 
 import org.springframework.stereotype.Repository;
 
@@ -8,7 +8,7 @@ import java.util.List;
 public interface LectureRepository {
     Long append(Lecture lecture);
 
-    List<Lecture> findAll();
+    List<Lecture> find();
 
-    void deleteAll();
+    List<Lecture> findAll();
 }

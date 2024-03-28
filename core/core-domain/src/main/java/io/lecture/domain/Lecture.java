@@ -1,4 +1,4 @@
-package io.lecture.core.api.domain;
+package io.lecture.domain;
 
 import java.time.LocalDateTime;
 

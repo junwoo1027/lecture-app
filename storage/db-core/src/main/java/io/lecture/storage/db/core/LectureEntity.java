@@ -1,6 +1,6 @@
 package io.lecture.storage.db.core;
 
-import io.lecture.core.api.domain.Lecture;
+import io.lecture.domain.Lecture;
 import jakarta.persistence.Entity;
 
 import java.time.LocalDateTime;

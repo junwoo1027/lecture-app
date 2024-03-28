@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.core.api.domain.Lecture;
+import io.lecture.domain.Lecture;
 
 import java.time.LocalDateTime;
 
