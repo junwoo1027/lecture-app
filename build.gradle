@@ -21,6 +21,7 @@ subprojects {
 
     dependencies {
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation group: 'org.mockito', name: 'mockito-inline', version: '2.7.21'
     }
 
     bootJar.enabled = false

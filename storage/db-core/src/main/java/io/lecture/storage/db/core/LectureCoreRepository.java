@@ -24,12 +24,8 @@ public class LectureCoreRepository implements LectureRepository {
     }
 
     @Override
-    public List<Lecture> find() {
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime weekBefore = now.minusWeeks(1);
-        LocalDateTime dayAfter = now.plusDays(1);
-
-        return lectureJpaRepository.findByStartAtBetweenOrderByStartAt(weekBefore, dayAfter)
+    public List<Lecture> find(LocalDateTime start, LocalDateTime end) {
+        return lectureJpaRepository.findByStartAtBetweenOrderByStartAt(start, end)
                 .stream().map(LectureEntity::toLecture).collect(Collectors.toList());
     }
 
