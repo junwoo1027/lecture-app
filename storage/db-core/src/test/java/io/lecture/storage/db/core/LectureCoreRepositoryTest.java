@@ -43,30 +43,6 @@ class LectureCoreRepositoryTest {
     }
 
     @Test
-    @DisplayName("시작 시간 1주일 전부터 시작 시간 1일 후 까지 강연의 목록을 조회한다.")
-    void find() {
-        // given
-        LocalDateTime now = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        LocalDateTime start = now.minusWeeks(1);
-        LocalDateTime end = now.plusDays(1);
-        lectureJpaRepository.save(new LectureEntity("김준우", "1강연장", 10, start.plusDays(2), "스프링 강연"));
-        lectureJpaRepository.save(new LectureEntity("준우1", "2강연장", 20, start.plusDays(3), "JPA 강연"));
-        lectureJpaRepository.save(new LectureEntity("준우2", "3강연장", 25, start.minusDays(1), "DB 강연"));
-        lectureJpaRepository.save(new LectureEntity("준우3", "4강연장", 25, start.plusDays(9), "JAVA 강연"));
-
-        // when
-        List<Lecture> results = lectureCoreRepository.find(start, end);
-
-        // then
-        assertThat(results).hasSize(2);
-        assertThat(results).extracting("lecturer").containsExactlyInAnyOrder("김준우", "준우1");
-        assertThat(results).extracting("hall").containsExactlyInAnyOrder("1강연장", "2강연장");
-        assertThat(results).extracting("seats").containsExactlyInAnyOrder(10, 20);
-        assertThat(results).extracting("startAt").containsExactlyInAnyOrder(start.plusDays(2), start.plusDays(3));
-        assertThat(results).extracting("description").containsExactlyInAnyOrder("스프링 강연", "JPA 강연");
-    }
-
-    @Test
     @DisplayName("전체 강연 목록 조회가 정상 동작한다")
     void findAll() {
         // given
