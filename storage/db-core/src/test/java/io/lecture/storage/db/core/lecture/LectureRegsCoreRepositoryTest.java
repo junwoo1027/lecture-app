@@ -18,14 +18,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(LectureRegsCoreRepository.class)
 class LectureRegsCoreRepositoryTest {
 
-    @Autowired
-    LectureRegsCoreRepository lectureRegsCoreRepository;
+    @Autowired LectureRegsCoreRepository lectureRegsCoreRepository;
 
-    @Autowired
-    LectureRegsJpaRepository lectureRegsJpaRepository;
+    @Autowired LectureRegsJpaRepository lectureRegsJpaRepository;
 
-    @Autowired
-    LectureJpaRepository lectureJpaRepository;
+    @Autowired LectureJpaRepository lectureJpaRepository;
 
     @BeforeEach
     void setup() {

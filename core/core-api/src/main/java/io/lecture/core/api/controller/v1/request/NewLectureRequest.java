@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.NewLecture;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
@@ -12,8 +12,8 @@ public record NewLectureRequest(
         @NotNull LocalDateTime startAt,
         @NotNull String description
 ) {
-    public Lecture toLecture() {
-        return new Lecture(
+    public NewLecture toNewLecture() {
+        return new NewLecture(
                 this.lecturer,
                 this.hall,
                 this.seats,

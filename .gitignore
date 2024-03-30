@@ -11,3 +11,5 @@ build/
 *.ipr
 out/
 
+
+storage/db-core/src/main/generated

@@ -1,6 +1,7 @@
 package io.lecture.storage.db.core.lecture;
 
 import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.NewLecture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +14,23 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
-@Import(LectureCoreRepository.class)
+@Import({ LectureCoreRepository.class, LectureQueryDslRepository.class })
 class LectureCoreRepositoryTest {
 
-    @Autowired
-    LectureCoreRepository lectureCoreRepository;
+    @Autowired LectureCoreRepository lectureCoreRepository;
 
-    @Autowired
-    LectureJpaRepository lectureJpaRepository;
+    @Autowired LectureJpaRepository lectureJpaRepository;
+
+    @Autowired LectureRegsJpaRepository lectureRegsJpaRepository;
+
+    @Autowired LectureQueryDslRepository lectureQueryDslRepository;
 
     @Test
     @DisplayName("강연 등록이 정상 동작한다")
     void append() {
         // given
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture("김준우", "1강연장", 10, startAt, "스프링 강연");
+        NewLecture lecture = new NewLecture("김준우", "1강연장", 10, startAt, "스프링 강연");
 
         // when
         Long successId = lectureCoreRepository.append(lecture);
