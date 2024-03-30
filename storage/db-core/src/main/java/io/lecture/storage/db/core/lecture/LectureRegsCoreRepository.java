@@ -2,7 +2,8 @@ package io.lecture.storage.db.core.lecture;
 
 import io.lecture.domain.lecture.domain.LectureRegs;
 import io.lecture.domain.lecture.LectureRegsRepository;
-import io.lecture.domain.lecture.NewLectureRegs;
+import io.lecture.domain.lecture.domain.NewLectureRegs;
+import io.lecture.storage.db.core.lecture.entity.LectureRegsEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 

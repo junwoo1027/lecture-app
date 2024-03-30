@@ -1,6 +1,7 @@
 package io.lecture.storage.db.core.lecture;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.lecture.storage.db.core.lecture.entity.LectureEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

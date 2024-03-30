@@ -1,4 +1,4 @@
-package io.lecture.storage.db.core.lecture;
+package io.lecture.storage.db.core.lecture.entity;
 
 import io.lecture.domain.lecture.domain.LectureRegs;
 import io.lecture.storage.db.core.BaseEntity;

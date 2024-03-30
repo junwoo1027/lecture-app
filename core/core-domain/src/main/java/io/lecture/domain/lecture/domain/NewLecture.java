@@ -1,4 +1,4 @@
-package io.lecture.domain.lecture;
+package io.lecture.domain.lecture.domain;
 
 import io.lecture.domain.error.CoreErrorType;
 import io.lecture.domain.error.CoreException;

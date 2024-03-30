@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.domain.lecture.CancelLectureRegs;
+import io.lecture.domain.lecture.domain.CancelLectureRegs;
 import jakarta.validation.constraints.NotNull;
 
 public record CancelLectureRequest(

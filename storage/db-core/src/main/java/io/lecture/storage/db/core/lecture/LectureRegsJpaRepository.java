@@ -1,5 +1,6 @@
 package io.lecture.storage.db.core.lecture;
 
+import io.lecture.storage.db.core.lecture.entity.LectureRegsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package io.lecture.domain.lecture;
 
-import io.lecture.domain.lecture.*;
+import io.lecture.domain.lecture.domain.NewLecture;
+import io.lecture.domain.lecture.domain.NewLectureRegs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

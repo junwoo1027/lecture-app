@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.domain.lecture.NewLecture;
+import io.lecture.domain.lecture.domain.NewLecture;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
