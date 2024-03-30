@@ -1,5 +1,6 @@
 package io.lecture.domain.lecture;
 
+import io.lecture.domain.lecture.domain.LectureRegs;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

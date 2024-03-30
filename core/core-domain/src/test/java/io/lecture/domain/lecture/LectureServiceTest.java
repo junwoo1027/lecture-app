@@ -2,6 +2,8 @@ package io.lecture.domain.lecture;
 
 import io.lecture.domain.error.CoreErrorCode;
 import io.lecture.domain.error.CoreException;
+import io.lecture.domain.lecture.domain.Lecture;
+import io.lecture.domain.lecture.domain.LectureRegs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

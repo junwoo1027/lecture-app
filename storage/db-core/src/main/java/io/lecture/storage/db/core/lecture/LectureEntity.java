@@ -1,6 +1,6 @@
 package io.lecture.storage.db.core.lecture;
 
-import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.domain.Lecture;
 import io.lecture.storage.db.core.BaseEntity;
 import jakarta.persistence.Entity;
 

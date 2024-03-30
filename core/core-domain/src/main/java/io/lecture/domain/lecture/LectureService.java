@@ -3,6 +3,8 @@ package io.lecture.domain.lecture;
 import io.lecture.domain.error.CoreErrorType;
 import io.lecture.domain.error.CoreException;
 
+import io.lecture.domain.lecture.domain.Lecture;
+import io.lecture.domain.lecture.domain.LectureRegs;
 import io.lecture.redisson.aop.RedissonLock;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
 package io.lecture.storage.db.core.lecture;
 
-import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.domain.Lecture;
 import io.lecture.domain.lecture.LectureRepository;
 import io.lecture.domain.lecture.NewLecture;
 import org.springframework.stereotype.Repository;

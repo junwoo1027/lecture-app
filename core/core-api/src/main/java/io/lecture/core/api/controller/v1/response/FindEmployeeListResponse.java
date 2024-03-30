@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.response;
 
-import io.lecture.domain.lecture.LectureRegs;
+import io.lecture.domain.lecture.domain.LectureRegs;
 
 import java.util.List;
 import java.util.stream.Collectors;
