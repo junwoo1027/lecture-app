@@ -1,13 +1,13 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.domain.lecture.NewLectureRegs;
+import io.lecture.domain.lecture.CancelLectureRegs;
 import jakarta.validation.constraints.NotNull;
 
-public record ApplyLectureRequest(
+public record CancelLectureRequest(
         @NotNull Integer employeeNumber
 ) {
-    public NewLectureRegs toLectureRegs(Long lectureId) {
-        return new NewLectureRegs(
+    public CancelLectureRegs toCancelLectureRegs(Long lectureId) {
+        return new CancelLectureRegs(
                 this.employeeNumber,
                 lectureId
         );

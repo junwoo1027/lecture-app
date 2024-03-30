@@ -27,12 +27,30 @@ public class LectureService {
     }
 
     @RedissonLock(key = "#lockName")
-    public Long apply(String lockName, LectureRegs lectureRegs) {
-        isValidEmployeeNumber(lectureRegs.employeeNumber());
-        Lecture lecture = findLecture(lectureRegs);
-        checkIsApply(lectureRegs);
-        checkIsExceeded(lectureRegs, lecture);
+    public Long apply(String lockName, NewLectureRegs lectureRegs) {
+        this.isValidEmployeeNumber(lectureRegs.employeeNumber());
+        Lecture lecture = findLecture(lectureRegs.lectureId());
+
+        boolean isExistsRegs = this.existsLectureRegs(lectureRegs.employeeNumber(), lectureRegs.lectureId());
+        if (isExistsRegs) {
+            throw new CoreException(CoreErrorType.ALREADY_APPLIED_LECTURE);
+        }
+
+        this.checkIsExceeded(lectureRegs, lecture);
         return this.lectureRegsRepository.apply(lectureRegs);
+    }
+
+    public void cancel(CancelLectureRegs cancelLectureRegs) {
+        LectureRegs lectureRegs = findLectureRegs(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+        this.lectureRegsRepository.cancel(lectureRegs.id());
+    }
+
+    private LectureRegs findLectureRegs(int employeeNumber, Long lectureId) {
+        LectureRegs lectureRegs = this.lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
+        if (lectureRegs == null) {
+            throw new CoreException(CoreErrorType.NOT_FOUND_DATA);
+        }
+        return lectureRegs;
     }
 
     private void isValidEmployeeNumber(Integer employeeNumber) {
@@ -42,22 +60,19 @@ public class LectureService {
         }
     }
 
-    private Lecture findLecture(LectureRegs lectureRegs) {
-        Lecture lecture = lectureRepository.findById(lectureRegs.lectureId());
+    private Lecture findLecture(Long lectureId) {
+        Lecture lecture = this.lectureRepository.findById(lectureId);
         if (lecture == null) {
             throw new CoreException(CoreErrorType.NOT_FOUND_DATA);
         }
         return lecture;
     }
 
-    private void checkIsApply(LectureRegs lectureRegs) {
-        boolean isApply = lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId());
-        if (isApply) {
-            throw new CoreException(CoreErrorType.ALREADY_APPLIED_LECTURE);
-        }
+    private boolean existsLectureRegs(int employeeNumber, Long lectureId) {
+        return this.lectureRegsRepository.existsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
     }
 
-    private void checkIsExceeded(LectureRegs lectureRegs, Lecture lecture) {
+    private void checkIsExceeded(NewLectureRegs lectureRegs, Lecture lecture) {
         int appliedCount = this.lectureRegsRepository.countByLectureId(lectureRegs.lectureId());
         lecture.isExceeded(appliedCount);
     }

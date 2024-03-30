@@ -1,7 +1,6 @@
 package io.lecture.domain.lecture;
 
-public record LectureRegs(
-        Long id,
+public record NewLectureRegs(
         int employeeNumber,
         Long lectureId
 ) {

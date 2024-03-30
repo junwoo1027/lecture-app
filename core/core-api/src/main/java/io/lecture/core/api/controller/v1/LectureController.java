@@ -1,6 +1,7 @@
 package io.lecture.core.api.controller.v1;
 
 import io.lecture.core.api.controller.v1.request.ApplyLectureRequest;
+import io.lecture.core.api.controller.v1.request.CancelLectureRequest;
 import io.lecture.core.api.controller.v1.request.NewLectureRequest;
 import io.lecture.core.api.controller.v1.response.ApplyLectureResponse;
 import io.lecture.core.api.controller.v1.response.FindLectureResponse;
@@ -44,5 +45,15 @@ public class LectureController {
     ) {
         Long successId = lectureService.apply("apply_lecture", request.toLectureRegs(lectureId));
         return ApiResponse.success(ApplyLectureResponse.of(successId));
+    }
+
+    /** 강연 취소 */
+    @PostMapping("/{lectureId}/cancel")
+    public ApiResponse cancelLecture(
+            @PathVariable Long lectureId,
+            @Valid @RequestBody CancelLectureRequest request
+            ) {
+        lectureService.cancel(request.toCancelLectureRegs(lectureId));
+        return ApiResponse.success();
     }
 }

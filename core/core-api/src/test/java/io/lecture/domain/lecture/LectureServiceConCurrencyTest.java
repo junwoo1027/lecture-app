@@ -42,7 +42,7 @@ public class LectureServiceConCurrencyTest {
         for (int i = 0; i < numberOfThreads; i++) {
             executorService.submit(() -> {
                 try {
-                    lectureService.apply("강연신청", new LectureRegs(ThreadLocalRandom.current().nextInt(10000, 100000), lectureId));
+                    lectureService.apply("강연신청", new NewLectureRegs(ThreadLocalRandom.current().nextInt(10000, 100000), lectureId));
                 } finally {
                     latch.countDown();
                 }

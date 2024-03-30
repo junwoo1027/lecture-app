@@ -84,7 +84,7 @@ class LectureServiceTest {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
-        LectureRegs lectureRegs = new LectureRegs(employeeNumber, lectureId);
+        NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
 
@@ -110,7 +110,7 @@ class LectureServiceTest {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
-        LectureRegs lectureRegs = new LectureRegs(employeeNumber, lectureId);
+        NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
 
         when(lectureRepository.findById(lectureId)).thenReturn(null);
 
@@ -126,7 +126,7 @@ class LectureServiceTest {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
-        LectureRegs lectureRegs = new LectureRegs(employeeNumber, lectureId);
+        NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
 
@@ -147,7 +147,7 @@ class LectureServiceTest {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
-        LectureRegs lectureRegs = new LectureRegs(employeeNumber, lectureId);
+        NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
 
@@ -162,5 +162,41 @@ class LectureServiceTest {
         verify(lectureRepository, times(1)).findById(lectureId);
         verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId());
         verify(lectureRegsRepository, times(1)).countByLectureId(lectureId);
+    }
+
+    @Test
+    @DisplayName("강연 신청 취소가 정상 동작한다")
+    void cancel() {
+        // given
+        int employeeNumber = 12345;
+        long lectureId = 1L;
+        CancelLectureRegs cancelLectureRegs = new CancelLectureRegs(employeeNumber, lectureId);
+        LectureRegs lectureRegs = new LectureRegs(2L, employeeNumber, cancelLectureRegs.lectureId());
+
+        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId())).thenReturn(lectureRegs);
+
+        // when
+        lectureService.cancel(cancelLectureRegs);
+
+        // then
+        verify(lectureRegsRepository, times(1)).cancel(lectureRegs.id());
+        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+    }
+
+    @Test
+    @DisplayName("강연 신청 취소 시 신청 내역이 없으면 실패한다")
+    void cancel_fail() {
+        // given
+        int employeeNumber = 12345;
+        long lectureId = 1L;
+        CancelLectureRegs cancelLectureRegs = new CancelLectureRegs(employeeNumber, lectureId);
+
+        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId())).thenReturn(null);
+
+        // when && then
+        CoreException thrown = assertThrows(CoreException.class, () -> lectureService.cancel(cancelLectureRegs));
+        assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1000);
+        assertThat(thrown.getErrorType().getMessage()).isEqualTo("Not found data.");
+        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
     }
 }

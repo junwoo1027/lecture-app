@@ -30,6 +30,7 @@ public class LectureRegsEntity extends BaseEntity {
 
     public LectureRegs toLectureRegs() {
         return new LectureRegs(
+                super.getId(),
                 this.employeeNumber,
                 this.lectureId
         );
