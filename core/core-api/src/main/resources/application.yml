@@ -5,4 +5,5 @@ spring:
   config:
     import:
       - db-core.yml
+      - redisson.yml
 

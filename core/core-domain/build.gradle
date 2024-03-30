@@ -1,3 +1,5 @@
 dependencies {
+    implementation(project(":support:redisson"))
+    
     compileOnly("org.springframework:spring-context")
 }

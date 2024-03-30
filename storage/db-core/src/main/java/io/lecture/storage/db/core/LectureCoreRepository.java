@@ -4,7 +4,6 @@ import io.lecture.domain.Lecture;
 import io.lecture.domain.LectureRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,19 +17,23 @@ public class LectureCoreRepository implements LectureRepository {
 
     @Override
     public Long append(Lecture lecture) {
-        return lectureJpaRepository.save(
+        return this.lectureJpaRepository.save(
                 new LectureEntity(lecture.lecturer(), lecture.hall(), lecture.seats(), lecture.startAt(), lecture.description())
         ).getId();
     }
 
     @Override
-    public List<Lecture> find(LocalDateTime start, LocalDateTime end) {
-        return lectureJpaRepository.findByStartAtBetweenOrderByStartAt(start, end)
-                .stream().map(LectureEntity::toLecture).collect(Collectors.toList());
+    public List<Lecture> findAll() {
+        return this.lectureJpaRepository.findAll().stream().map(LectureEntity::toLecture).collect(Collectors.toList());
     }
 
     @Override
-    public List<Lecture> findAll() {
-        return lectureJpaRepository.findAll().stream().map(LectureEntity::toLecture).collect(Collectors.toList());
+    public Lecture findById(Long id) {
+        LectureEntity lectureEntity = this.lectureJpaRepository.findById(id).orElse(null);
+        if (lectureEntity != null) {
+            return lectureEntity.toLecture();
+        } else {
+            return null;
+        }
     }
 }
