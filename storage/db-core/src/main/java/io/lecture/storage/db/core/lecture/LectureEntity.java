@@ -47,6 +47,7 @@ public class LectureEntity extends BaseEntity {
 
     public Lecture toLecture() {
         return new Lecture(
+                super.getId(),
                 this.lecturer,
                 this.hall,
                 this.seats,

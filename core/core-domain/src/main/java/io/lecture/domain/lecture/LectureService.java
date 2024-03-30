@@ -18,7 +18,7 @@ public class LectureService {
         this.lectureRegsRepository = lectureRegsRepository;
     }
 
-    public Long append(Lecture lecture) {
+    public Long append(NewLecture lecture) {
         return this.lectureRepository.append(lecture);
     }
 
@@ -47,6 +47,10 @@ public class LectureService {
 
     public List<LectureRegs> findLectureRegistrationsByLecture(Long lectureId) {
         return this.lectureRegsRepository.getLectureRegsListByLecture(lectureId);
+    }
+
+    public List<Lecture> findLecturesByEmployee(int employeeNumber) {
+        return this.lectureRepository.findLecturesByEmployee(employeeNumber);
     }
 
     private LectureRegs findLectureRegistrationsByLecture(int employeeNumber, Long lectureId) {

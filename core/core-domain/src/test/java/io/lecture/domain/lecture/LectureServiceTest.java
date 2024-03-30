@@ -10,7 +10,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,8 +37,8 @@ class LectureServiceTest {
         // given
         LocalDateTime startAt1 = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         LocalDateTime startAt2 = LocalDateTime.of(2024, 3, 28, 0, 0, 0);
-        Lecture lecture1 = new Lecture("김준우", "1강연장", 10, startAt1, "스프링 강연");
-        Lecture lecture2 = new Lecture("김준우", "2강연장", 5, startAt2, "JPA 강연");
+        NewLecture lecture1 = new NewLecture("김준우", "1강연장", 10, startAt1, "스프링 강연");
+        NewLecture lecture2 = new NewLecture("김준우", "2강연장", 5, startAt2, "JPA 강연");
 
         when(lectureRepository.append(lecture1)).thenReturn(1L);
         when(lectureRepository.append(lecture2)).thenReturn(2L);
@@ -59,8 +61,8 @@ class LectureServiceTest {
         LocalDateTime startAt1 = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         LocalDateTime startAt2 = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         List<Lecture> lectures = List.of(
-                new Lecture("김준우", "1강연장", 10, startAt1, "스프링 강연"),
-                new Lecture("준우", "2강연장", 20, startAt2, "JPA 강연")
+                new Lecture(1L,"김준우", "1강연장", 10, startAt1, "스프링 강연"),
+                new Lecture(2L,"준우", "2강연장", 20, startAt2, "JPA 강연")
         );
 
         when(lectureRepository.findAll()).thenReturn(lectures);
@@ -86,7 +88,7 @@ class LectureServiceTest {
         final Long lectureId = 1L;
         NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
+        Lecture lecture = new Lecture(1L,"김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
         when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(false);
@@ -128,7 +130,7 @@ class LectureServiceTest {
         final Long lectureId = 1L;
         NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
+        Lecture lecture = new Lecture(1L,"김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
         when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(true);
@@ -149,7 +151,7 @@ class LectureServiceTest {
         final Long lectureId = 1L;
         NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture("김준우", "1강연장", 5, startAt, "스프링 강연");
+        Lecture lecture = new Lecture(1L, "김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
         when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(false);
@@ -221,5 +223,50 @@ class LectureServiceTest {
         assertThat(results).extracting("employeeNumber").containsExactlyInAnyOrder(11111, 22222);
         assertThat(results).extracting("lectureId").containsExactlyInAnyOrder(1L, 1L);
         verify(lectureRegsRepository, times(1)).getLectureRegsListByLecture(lectureId);
+    }
+
+    @Test
+    @DisplayName("신청한 강연 목록 조회가 정상 동작한다")
+    void findLecturesByEmployee() {
+        LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
+        List<Lecture> lectures = List.of(
+                new Lecture(1L, "김준우", "1강연장", 10, startAt, "스프링 강연"),
+                new Lecture(2L, "김준우", "2강연장", 11, startAt, "JPA 강연"),
+                new Lecture(3L, "김준우", "3강연장", 12, startAt, "자바 강연")
+        );
+
+        int employeeNumber1 = 11111;
+        List<LectureRegs> allLectureRegs = List.of(
+                new LectureRegs(1L, employeeNumber1, lectures.get(0).id()),
+                new LectureRegs(2L, employeeNumber1, lectures.get(1).id()),
+                new LectureRegs(3L, 22222, lectures.get(0).id()),
+                new LectureRegs(4L, 22222, lectures.get(1).id()),
+                new LectureRegs(5L, 22222, lectures.get(2).id())
+        );
+
+        // Create a map of lectures for quick lookup by ID
+        Map<Long, Lecture> lectureMap = lectures.stream()
+                .collect(Collectors.toMap(Lecture::id, lecture -> lecture));
+
+        // Filter and collect matching lectures for a specific employee
+        List<Lecture> expectedList = allLectureRegs.stream()
+                .filter(reg -> reg.employeeNumber() == employeeNumber1)
+                .map(reg -> lectureMap.get(reg.lectureId()))
+                .collect(Collectors.toList());
+
+        when(lectureRepository.findLecturesByEmployee(employeeNumber1)).thenReturn(expectedList);
+
+        // when
+        List<Lecture> results = lectureService.findLecturesByEmployee(employeeNumber1);
+
+        // then
+        assertThat(results).hasSize(2);
+        assertThat(results).extracting("id").containsExactlyInAnyOrder(1L, 2L);
+        assertThat(results).extracting("lecturer").containsOnly("김준우");
+        assertThat(results).extracting("hall").containsExactlyInAnyOrder("1강연장", "2강연장");
+        assertThat(results).extracting("seats").containsExactlyInAnyOrder(10, 11);
+        assertThat(results).extracting("startAt").containsOnly(startAt);
+        assertThat(results).extracting("description").containsExactlyInAnyOrder("스프링 강연", "JPA 강연");
+        verify(lectureRepository, times(1)).findLecturesByEmployee(employeeNumber1);
     }
 }

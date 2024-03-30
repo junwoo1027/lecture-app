@@ -6,9 +6,11 @@ import java.util.List;
 
 @Repository
 public interface LectureRepository {
-    Long append(Lecture lecture);
+    Long append(NewLecture lecture);
 
     List<Lecture> findAll();
 
     Lecture findById(Long id);
+
+    List<Lecture> findLecturesByEmployee(int employeeNumber);
 }

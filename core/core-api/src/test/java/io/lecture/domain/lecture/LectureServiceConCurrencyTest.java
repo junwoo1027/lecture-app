@@ -31,7 +31,7 @@ public class LectureServiceConCurrencyTest {
     void con_currency_apply() throws InterruptedException {
         // given
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture("김준우", "1강연장", 10, startAt, "스프링 강연");
+        NewLecture lecture = new NewLecture("김준우", "1강연장", 10, startAt, "스프링 강연");
         Long lectureId = lectureRepository.append(lecture);
 
         // when
