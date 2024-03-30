@@ -1,6 +1,6 @@
 package io.lecture.storage.db.core;
 
-import io.lecture.domain.LectureRegs;
+import io.lecture.domain.lecture.LectureRegs;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 

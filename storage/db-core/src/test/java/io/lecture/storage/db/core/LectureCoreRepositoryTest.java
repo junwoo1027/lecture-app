@@ -1,6 +1,6 @@
 package io.lecture.storage.db.core;
 
-import io.lecture.domain.Lecture;
+import io.lecture.domain.lecture.Lecture;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

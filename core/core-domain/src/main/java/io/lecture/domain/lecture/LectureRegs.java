@@ -1,4 +1,4 @@
-package io.lecture.domain;
+package io.lecture.domain.lecture;
 
 public record LectureRegs(
         int employeeNumber,

@@ -1,7 +1,6 @@
 package io.lecture.storage.db.core;
 
-import io.lecture.domain.Lecture;
-import io.lecture.domain.LectureRegs;
+import io.lecture.domain.lecture.LectureRegs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -6,8 +6,8 @@ import io.lecture.core.api.controller.v1.response.ApplyLectureResponse;
 import io.lecture.core.api.controller.v1.response.FindLectureResponse;
 import io.lecture.core.api.controller.v1.response.NewLectureResponse;
 import io.lecture.core.api.support.response.ApiResponse;
-import io.lecture.domain.Lecture;
-import io.lecture.domain.LectureService;
+import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.LectureService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

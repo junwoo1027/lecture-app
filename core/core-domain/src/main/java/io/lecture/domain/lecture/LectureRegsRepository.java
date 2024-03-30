@@ -1,4 +1,4 @@
-package io.lecture.domain;
+package io.lecture.domain.lecture;
 
 import org.springframework.stereotype.Repository;
 

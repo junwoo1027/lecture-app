@@ -1,5 +1,6 @@
-package io.lecture.domain;
+package io.lecture.domain.lecture;
 
+import io.lecture.domain.lecture.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class LectureServiceConCurrencyTest {
     @Autowired
     private LectureRegsRepository lectureRegsRepository;
 
-    @Autowired LectureService lectureService;
+    @Autowired
+    LectureService lectureService;
 
     @Test
     @DisplayName("강의신청 동시성 30명 테스트")

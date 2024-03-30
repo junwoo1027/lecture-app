@@ -1,7 +1,7 @@
 package io.lecture.storage.db.core;
 
-import io.lecture.domain.LectureRegs;
-import io.lecture.domain.LectureRegsRepository;
+import io.lecture.domain.lecture.LectureRegs;
+import io.lecture.domain.lecture.LectureRegsRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

@@ -1,6 +1,6 @@
 package io.lecture.core.api.controller.v1.request;
 
-import io.lecture.domain.LectureRegs;
+import io.lecture.domain.lecture.LectureRegs;
 import jakarta.validation.constraints.NotNull;
 
 public record ApplyLectureRequest(
