@@ -41,15 +41,15 @@ public class LectureService {
     }
 
     public void cancel(CancelLectureRegs cancelLectureRegs) {
-        LectureRegs lectureRegs = findLectureRegsList(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+        LectureRegs lectureRegs = findLectureRegistrationsByLecture(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
         this.lectureRegsRepository.cancel(lectureRegs.id());
     }
 
-    public List<LectureRegs> findLectureRegsList(Long lectureId) {
+    public List<LectureRegs> findLectureRegistrationsByLecture(Long lectureId) {
         return this.lectureRegsRepository.getLectureRegsListByLecture(lectureId);
     }
 
-    private LectureRegs findLectureRegsList(int employeeNumber, Long lectureId) {
+    private LectureRegs findLectureRegistrationsByLecture(int employeeNumber, Long lectureId) {
         LectureRegs lectureRegs = this.lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
         if (lectureRegs == null) {
             throw new CoreException(CoreErrorType.NOT_FOUND_DATA);

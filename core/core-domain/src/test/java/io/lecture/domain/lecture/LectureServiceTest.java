@@ -214,7 +214,7 @@ class LectureServiceTest {
         when(lectureRegsRepository.getLectureRegsListByLecture(lectureId)).thenReturn(expectedList);
 
         // when
-        List<LectureRegs> results = lectureService.findLectureRegsList(lectureId);
+        List<LectureRegs> results = lectureService.findLectureRegistrationsByLecture(lectureId);
 
         // then
         assertThat(results).hasSize(2);

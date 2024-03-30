@@ -64,7 +64,7 @@ public class LectureController {
     public ApiResponse<List<FindEmployeeListResponse>> findEmployeeList(
             @PathVariable Long lectureId
     ) {
-        List<LectureRegs> lectureRegsList = lectureService.findLectureRegsList(lectureId);
+        List<LectureRegs> lectureRegsList = lectureService.findLectureRegistrationsByLecture(lectureId);
         return ApiResponse.success(FindEmployeeListResponse.of(lectureRegsList));
     }
 }
