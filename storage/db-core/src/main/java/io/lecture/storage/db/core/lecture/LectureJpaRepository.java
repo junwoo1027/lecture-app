@@ -1,4 +1,4 @@
-package io.lecture.storage.db.core;
+package io.lecture.storage.db.core.lecture;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

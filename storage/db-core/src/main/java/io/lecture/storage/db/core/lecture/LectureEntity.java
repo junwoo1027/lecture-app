@@ -1,6 +1,7 @@
-package io.lecture.storage.db.core;
+package io.lecture.storage.db.core.lecture;
 
 import io.lecture.domain.lecture.Lecture;
+import io.lecture.storage.db.core.BaseEntity;
 import jakarta.persistence.Entity;
 
 import java.time.LocalDateTime;

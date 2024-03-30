@@ -1,4 +1,4 @@
-package io.lecture.storage.db.core;
+package io.lecture.storage.db.core.lecture;
 
 import io.lecture.domain.lecture.Lecture;
 import io.lecture.domain.lecture.LectureRepository;
