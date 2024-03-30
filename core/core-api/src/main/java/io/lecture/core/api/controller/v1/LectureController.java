@@ -4,10 +4,12 @@ import io.lecture.core.api.controller.v1.request.ApplyLectureRequest;
 import io.lecture.core.api.controller.v1.request.CancelLectureRequest;
 import io.lecture.core.api.controller.v1.request.NewLectureRequest;
 import io.lecture.core.api.controller.v1.response.ApplyLectureResponse;
+import io.lecture.core.api.controller.v1.response.FindEmployeeListResponse;
 import io.lecture.core.api.controller.v1.response.FindLectureResponse;
 import io.lecture.core.api.controller.v1.response.NewLectureResponse;
 import io.lecture.core.api.support.response.ApiResponse;
 import io.lecture.domain.lecture.Lecture;
+import io.lecture.domain.lecture.LectureRegs;
 import io.lecture.domain.lecture.LectureService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,8 @@ public class LectureController {
 
     /** 전체 강연 목록 조회 */
     @GetMapping
-    public ApiResponse<List<FindLectureResponse>> findAllLectures() {
-        List<Lecture> lectures = lectureService.findAll();
+    public ApiResponse<List<FindLectureResponse>> findLectures() {
+        List<Lecture> lectures = lectureService.findLectures();
         return ApiResponse.success(FindLectureResponse.of(lectures));
     }
 
@@ -55,5 +57,14 @@ public class LectureController {
             ) {
         lectureService.cancel(request.toCancelLectureRegs(lectureId));
         return ApiResponse.success();
+    }
+
+    /** 강연 신청자 목록 조회 */
+    @GetMapping("/{lectureId}/employee")
+    public ApiResponse<List<FindEmployeeListResponse>> findEmployeeList(
+            @PathVariable Long lectureId
+    ) {
+        List<LectureRegs> lectureRegsList = lectureService.findLectureRegsList(lectureId);
+        return ApiResponse.success(FindEmployeeListResponse.of(lectureRegsList));
     }
 }

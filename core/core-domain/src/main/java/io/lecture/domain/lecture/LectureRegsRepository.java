@@ -2,6 +2,8 @@ package io.lecture.domain.lecture;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface LectureRegsRepository {
     Long apply(NewLectureRegs lectureRegs);
@@ -13,4 +15,6 @@ public interface LectureRegsRepository {
     LectureRegs findLectureRegsByEmployeeNumberAndLectureId(int employeeNumber, Long lectureId);
 
     void cancel(Long lectureRegsId);
+
+    List<LectureRegs> getLectureRegsListByLecture(Long lectureId);
 }

@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Import;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -128,6 +129,29 @@ class LectureRegsCoreRepositoryTest {
         // then
         List<LectureRegsEntity> result = lectureRegsJpaRepository.findAll();
         assertThat(result.size()).isEqualTo(0);
+    }
+
+    @Test
+    @DisplayName("강연 신청자 목록 조회가 정상 동작한다")
+    void findAllByLectureId() {
+        // given
+        Long lectureId = 1L;
+        LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
+        LectureEntity lectureEntity = new LectureEntity("김준우", "2강연장", 5, startAt, "자바 강연");
+        lectureJpaRepository.save(lectureEntity);
+
+        lectureRegsJpaRepository.save(new LectureRegsEntity(11111, 1L));
+        lectureRegsJpaRepository.save(new LectureRegsEntity(22222, 1L));
+        lectureRegsJpaRepository.save(new LectureRegsEntity(33333, 1L));
+        lectureRegsJpaRepository.save(new LectureRegsEntity(44444, 2L));
+
+        // when
+        List<LectureRegsEntity> result = lectureRegsJpaRepository.findAllByLectureId(lectureId);
+
+        // then
+        assertThat(result).hasSize(3);
+        assertThat(result).extracting("employeeNumber").containsExactlyInAnyOrder(11111, 22222, 33333);
+        assertThat(result).extracting("lectureId").containsExactlyInAnyOrder(1L, 1L, 1L);
     }
 
     private void saveLecture() {

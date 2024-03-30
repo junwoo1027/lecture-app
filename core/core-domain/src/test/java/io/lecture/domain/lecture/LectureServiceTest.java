@@ -2,7 +2,6 @@ package io.lecture.domain.lecture;
 
 import io.lecture.domain.error.CoreErrorCode;
 import io.lecture.domain.error.CoreException;
-import io.lecture.domain.lecture.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -66,7 +66,7 @@ class LectureServiceTest {
         when(lectureRepository.findAll()).thenReturn(lectures);
 
         // when
-        List<Lecture> results = lectureService.findAll();
+        List<Lecture> results = lectureService.findLectures();
 
         // then
         assertThat(results).hasSize(2);
@@ -106,7 +106,7 @@ class LectureServiceTest {
 
     @Test
     @DisplayName("존재하지 않은 강연을 신청하면 실패한다")
-    void not_found_lecture_apply_error() {
+    void notFoundLectureApplyError() {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
@@ -122,7 +122,7 @@ class LectureServiceTest {
 
     @Test
     @DisplayName("이미 해당 강연을 신청했으면 실패한다")
-    void already_apply_error() {
+    void alreadyApplyError() {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
@@ -143,7 +143,7 @@ class LectureServiceTest {
 
     @Test
     @DisplayName("강연 참석 인원이 정원에 도달하면 실패한다")
-    void exceeded_lecture_apply_error() {
+    void exceededLectureApplyError() {
         // given
         final int employeeNumber = 12345;
         final Long lectureId = 1L;
@@ -185,7 +185,7 @@ class LectureServiceTest {
 
     @Test
     @DisplayName("강연 신청 취소 시 신청 내역이 없으면 실패한다")
-    void cancel_fail() {
+    void cancelFail() {
         // given
         int employeeNumber = 12345;
         long lectureId = 1L;
@@ -198,5 +198,28 @@ class LectureServiceTest {
         assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1000);
         assertThat(thrown.getErrorType().getMessage()).isEqualTo("Not found data.");
         verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+    }
+
+    @Test
+    @DisplayName("강연 신청자 목록 조회가 정상 동작한다")
+    void findLectureRegsList() {
+        // given
+        Long lectureId = 1L;
+        List<LectureRegs> allLectureRegs = List.of(
+                new LectureRegs(1L, 11111, 1L),
+                new LectureRegs(2L, 22222, 1L),
+                new LectureRegs(3L, 33333, 2L));
+        List<LectureRegs> expectedList = allLectureRegs.stream().filter(each -> each.lectureId() == lectureId).collect(Collectors.toList());
+
+        when(lectureRegsRepository.getLectureRegsListByLecture(lectureId)).thenReturn(expectedList);
+
+        // when
+        List<LectureRegs> results = lectureService.findLectureRegsList(lectureId);
+
+        // then
+        assertThat(results).hasSize(2);
+        assertThat(results).extracting("employeeNumber").containsExactlyInAnyOrder(11111, 22222);
+        assertThat(results).extracting("lectureId").containsExactlyInAnyOrder(1L, 1L);
+        verify(lectureRegsRepository, times(1)).getLectureRegsListByLecture(lectureId);
     }
 }

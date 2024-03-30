@@ -6,6 +6,9 @@ import io.lecture.domain.lecture.NewLectureRegs;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Repository
 public class LectureRegsCoreRepository implements LectureRegsRepository {
     private final LectureRegsJpaRepository lectureRegsJpaRepository;
@@ -33,12 +36,18 @@ public class LectureRegsCoreRepository implements LectureRegsRepository {
 
     @Override
     public LectureRegs findLectureRegsByEmployeeNumberAndLectureId(int employeeNumber, Long lectureId) {
-        return this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
+        return this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId).toLectureRegs();
     }
 
     @Transactional
     @Override
     public void cancel(Long lectureRegsId) {
         this.lectureRegsJpaRepository.deleteById(lectureRegsId);
+    }
+
+    @Override
+    public List<LectureRegs> getLectureRegsListByLecture(Long lectureId) {
+        return this.lectureRegsJpaRepository.findAllByLectureId(lectureId)
+                .stream().map(LectureRegsEntity::toLectureRegs).collect(Collectors.toList());
     }
 }
