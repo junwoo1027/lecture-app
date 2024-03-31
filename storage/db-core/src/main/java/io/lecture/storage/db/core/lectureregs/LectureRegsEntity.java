@@ -2,10 +2,10 @@ package io.lecture.storage.db.core.lectureregs;
 
 import io.lecture.domain.lecture.domain.LectureRegs;
 import io.lecture.storage.db.core.BaseEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity(name = "lecture_regs")
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"employee_number", "lecture_id"})})
 public class LectureRegsEntity extends BaseEntity {
 
     @Column(name = "employee_number")
