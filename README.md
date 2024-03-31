@@ -19,6 +19,16 @@
 
 ## 📁 Project Structure
 멀티모듈 구조를 사용했습니다.
+- **core-api**: ```api```와 ```spring-web```과 관련된 기능들을 관리하는 모듈입니다.
+  
+  - ```core-domain``` 모듈을 가지고 ```db-core```를 ```runtimeOnly```로 가지고있습니다.
+    
+- **core-domain**: ```도메인```과 핵심 ```비즈니스``` 로직을 다루는 모듈입니다.
+
+- **db-core**: ```데이터베이스```와 관련된 영역을 다루는 모듈입니다.
+  - ```core-domain```모듈을 ```compileOnly```로 의존합니다.
+    
+- **reddison**: 분산락을 지원하기 위한 ```redission```설정과 ```AOP``` 다루는 모듈입니다.
 ```bash
 ├── core  
 │       └── core-api  
@@ -345,6 +355,6 @@ GET /api/v1/lectures/recent-popular
 
 2. 해결방안
 - 해당 이슈를 해결하기 위해 분산락을 고민하게 되었고 락을 사용하기 위해 별도의 커넥션 풀을 관리해야 하고 락에 관련된 부하를 RDS에서 받는 Named Lock보다는 
-Redis의 Redission을 사용해 분산락을 적용했습니다.
+Redis의 ```Redission```을 사용해 분산락을 적용했습니다.
 - 분산락을 쉽게 사용하기 위해 어노테이션 기반으로 AOP로 구성해 ```@RedissonLock```을 구현했습니다.
 - 해당 기능을 테스트하기 위헤 ```LectureServiceConCurrentcyTest```로 통합테스트를 진행했습니다.
