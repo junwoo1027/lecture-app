@@ -21,17 +21,15 @@
 ├── core  
 │       └── core-api  
 │           └── controller
-│               └── controller
-│                   └── request # request 객체
-│                   └── response # response 객체
-│               └── support
-│                   └── error # core-api 에러 코드, 에러 타입 등
-│                   └── response # response 타입 정의
+│               └── request # request 객체
+│               └── response # response 객체
+│           └── support
+│               └── error # core-api 에러 코드, 에러 타입 등
+│               └── response # response 타입 정의
 │       └── core-domain
-│           └── controller
-│               └── <도메인> # 각 도메인 ex : lecture
-│                   └── domain # 각 도메인 객체 ex : lecture
-│               └── error # core 에러 코드, 에러 타입 등
+│           └── <도메인> # 각 도메인 ex : lecture
+│               └── domain # 각 도메인 객체 ex : lecture
+│           └── error # core 에러 코드, 에러 타입 등
 ├── storage  
 │       └── db-core     
 │           └── <Entity> # 각 Entity ex : lecture, lectureRegs
@@ -106,7 +104,7 @@ POST /api/v1/lectures
 ##### 정보
 - 전체 강연 목록을 조회한다.
 ##### 요청
-```
+```json
 GET /api/v1/lectures
 ```
 
@@ -223,8 +221,8 @@ GET /api/v1/lectures/{lectureId}/employee
 ##### 정보
 - 사번 정보를 받아서 신청한 강연 목록을 조회한다.
 ##### 요청
-```
-GET /api/v1/employee/employeeNumber}/lectures
+```json
+GET /api/v1/employee/{employeeNumber}/lectures
 ```
 
 ##### 응답
@@ -264,7 +262,7 @@ GET /api/v1/employee/employeeNumber}/lectures
 ##### 정보
 - 최근 3일간 가장 신청이 많은 순으로 조회한다.
 ##### 요청
-```
+```json
 GET /api/v1/lectures/recent-popluar
 ```
 
