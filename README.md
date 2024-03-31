@@ -8,7 +8,8 @@
 - Java (JDK17)
 - Gradle
 - Junit5
-- H2 Database
+- MySQL Database (Server 환경)
+- H2 Database (Test 환경)
 - JPA
 - QueryDSL
 - Redis (Redisson)
@@ -42,6 +43,8 @@
 <details>
 <summary>테이블</summary>
 <div markdown="1">
+
+Application 실행 시 MySQL DB를 사용하여 JPA를 연동 하였으며 Test 환경에서 H2 DB를 사용하도록했습니다.
 
 #### 1. Lecture (강연)
 | 컬럼명         | 데이터타입         | 설명          

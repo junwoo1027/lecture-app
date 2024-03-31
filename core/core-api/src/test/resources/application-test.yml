@@ -1,0 +1,9 @@
+spring.application.name: core-api
+spring.profiles.active: local
+
+spring:
+  config:
+    import:
+      - db-core-test.yml
+      - redisson.yml
+

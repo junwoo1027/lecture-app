@@ -5,7 +5,10 @@ import io.lecture.domain.lecture.domain.NewLectureRegs;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.CountDownLatch;
@@ -16,6 +19,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@TestPropertySource(locations = "classpath:application-test.yml")
+@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.ANY)
 public class LectureServiceConCurrencyTest {
 
     @Autowired
@@ -59,3 +64,4 @@ public class LectureServiceConCurrencyTest {
     }
 
 }
+
