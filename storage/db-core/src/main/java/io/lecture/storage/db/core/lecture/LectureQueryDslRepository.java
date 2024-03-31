@@ -1,9 +1,8 @@
 package io.lecture.storage.db.core.lecture;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.lecture.storage.db.core.lecture.entity.LectureEntity;
-import io.lecture.storage.db.core.lecture.entity.QLectureEntity;
-import io.lecture.storage.db.core.lecture.entity.QLectureRegsEntity;
+
+import io.lecture.storage.db.core.lectureregs.QLectureRegsEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

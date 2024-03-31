@@ -1,7 +1,7 @@
 package io.lecture.storage.db.core.lecture;
 
-import io.lecture.storage.db.core.lecture.entity.LectureEntity;
-import io.lecture.storage.db.core.lecture.entity.LectureRegsEntity;
+import io.lecture.storage.db.core.lectureregs.LectureRegsEntity;
+import io.lecture.storage.db.core.lectureregs.LectureRegsJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
