@@ -20,6 +20,7 @@ public class LectureEntity extends BaseEntity {
     private String description;
 
     public LectureEntity() {
+
     }
 
     public LectureEntity(String lecturer, String hall, int seats, LocalDateTime startAt, String description) {
