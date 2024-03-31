@@ -35,7 +35,7 @@
 │           └── <Entity> # 각 Entity ex : lecture, lectureRegs
 └── support
         └── redisson # redis
-│           └── aop # aop
+            └── aop # aop
 ```
 
 <details>
