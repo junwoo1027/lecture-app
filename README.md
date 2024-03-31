@@ -4,13 +4,14 @@
 ---
 
 ## 📚 사용 스택
-- Spring Boot 3.2.2 (JDK17)
+- Spring Boot 3.2.2
+- Java (JDK17)
 - Gradle
 - Junit5
 - H2 Database
 - JPA
 - QueryDSL
-- Redis(Redisson)
+- Redis (Redisson)
 - Mockit
 
 --- 
