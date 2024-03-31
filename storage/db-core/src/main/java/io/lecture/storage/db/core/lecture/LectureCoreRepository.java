@@ -6,6 +6,7 @@ import io.lecture.domain.lecture.domain.NewLecture;
 import io.lecture.storage.db.core.lecture.entity.LectureEntity;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,12 @@ public class LectureCoreRepository implements LectureRepository {
     @Override
     public List<Lecture> findLecturesByEmployee(int employeeNumber) {
         return this.lectureQueryDslRepository.findLecturesByEmployee(employeeNumber)
+                .stream().map(LectureEntity::toLecture).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Lecture> findPopularLectures(LocalDateTime dateTime) {
+        return this.lectureQueryDslRepository.findPopularLectures(dateTime)
                 .stream().map(LectureEntity::toLecture).collect(Collectors.toList());
     }
 }

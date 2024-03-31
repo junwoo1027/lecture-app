@@ -1,6 +1,7 @@
 package io.lecture;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import io.lecture.storage.db.core.lecture.LectureQueryDslRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,5 +15,10 @@ public class TestConfiguration {
     @Bean
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(entityManager);
+    }
+
+    @Bean
+    public LectureQueryDslRepository lectureQueryDslRepository() {
+        return new LectureQueryDslRepository(jpaQueryFactory());
     }
 }

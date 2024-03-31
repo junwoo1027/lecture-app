@@ -67,10 +67,18 @@ public class LectureController {
 
     /** 신청한 강연 목록 조회 */
     @GetMapping("/employee/{employeeNumber}/lectures")
-    public ApiResponse<List<FindLectureForEmployeeResponse>> FindLecturesForEmployeeResponse(
+    public ApiResponse<List<FindLectureForEmployeeResponse>> FindLecturesForEmployee(
             @PathVariable("employeeNumber") Integer employeeNumberNumber
     ) {
         List<Lecture> lectures = lectureService.findLecturesByEmployee(employeeNumberNumber);
         return ApiResponse.success(FindLectureForEmployeeResponse.of(lectures));
+    }
+
+    /** 최근 3일간 인기강연 목록 조회 */
+    @GetMapping("/lectures/recent-popular")
+    public ApiResponse<List<FindPopularLecturesResponse>> findPopularLectures(
+    ) {
+        List<Lecture> lectures = lectureService.findPopularLectures();
+        return ApiResponse.success(FindPopularLecturesResponse.of(lectures));
     }
 }

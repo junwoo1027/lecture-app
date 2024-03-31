@@ -8,9 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -268,5 +270,52 @@ class LectureServiceTest {
         assertThat(results).extracting("startAt").containsOnly(startAt);
         assertThat(results).extracting("description").containsExactlyInAnyOrder("스프링 강연", "JPA 강연");
         verify(lectureRepository, times(1)).findLecturesByEmployee(employeeNumber1);
+    }
+
+    @Test
+    @DisplayName("신최근 3일간 신청이 많은 강연 목록 조회가 정상 작동한다")
+    void findPopularLectures() {
+        LocalDateTime now = LocalDateTime.now();
+        try (MockedStatic<LocalDateTime> mockedLocalDateTime = mockStatic(LocalDateTime.class)) {
+            LocalDateTime fixedDateTime = now;
+
+            LocalDateTime threeDaysAgo = now.minusDays(3);
+            int employeeNumber1 = 11111;
+            List<LectureRegs> allLectureRegs = List.of(
+                    new LectureRegs(1L, employeeNumber1, 2L),
+                    new LectureRegs(2L, employeeNumber1, 2L),
+                    new LectureRegs(3L, 22222, 1L),
+                    new LectureRegs(4L, 22222, 2L),
+                    new LectureRegs(5L, 22222, 3L),
+                    new LectureRegs(6L, 33333, 1L)
+            );
+
+            // 강의 ID별 등록 횟수를 카운트
+            Map<Long, Long> lectureCount = allLectureRegs.stream()
+                    .collect(Collectors.groupingBy(LectureRegs::lectureId, Collectors.counting()));
+
+            // 카운트 기반으로 내림차순 정렬
+            List<Map.Entry<Long, Long>> sortedLectures = new ArrayList<>(lectureCount.entrySet());
+            sortedLectures.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
+
+            List<Lecture> expectedList = sortedLectures.stream()
+                    .map(each -> new Lecture(each.getKey(), "test", "test", 2, fixedDateTime, "test")).
+                    collect(Collectors.toList());
+
+            // 2L 3개
+            // 1L 2개
+            // 3L 1개
+
+            mockedLocalDateTime.when(LocalDateTime::now).thenReturn(fixedDateTime);
+            when(lectureRepository.findPopularLectures(threeDaysAgo)).thenReturn(expectedList);
+
+            // when
+            List<Lecture> results = lectureService.findPopularLectures();
+
+            // then
+            assertThat(results).hasSize(3);
+            assertThat(results).extracting("id").containsExactly(2L, 1L, 3L);
+            verify(lectureRepository, times(1)).findPopularLectures(threeDaysAgo);
+        }
     }
 }

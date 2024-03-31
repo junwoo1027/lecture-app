@@ -7,6 +7,7 @@ import io.lecture.domain.lecture.domain.*;
 import io.lecture.redisson.aop.RedissonLock;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -52,6 +53,11 @@ public class LectureService {
 
     public List<Lecture> findLecturesByEmployee(int employeeNumber) {
         return this.lectureRepository.findLecturesByEmployee(employeeNumber);
+    }
+
+    public List<Lecture> findPopularLectures() {
+        LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
+        return this.lectureRepository.findPopularLectures(threeDaysAgo);
     }
 
     private LectureRegs findLectureRegistrationsByLecture(int employeeNumber, Long lectureId) {

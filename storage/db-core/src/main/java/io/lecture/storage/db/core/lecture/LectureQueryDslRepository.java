@@ -2,8 +2,11 @@ package io.lecture.storage.db.core.lecture;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.lecture.storage.db.core.lecture.entity.LectureEntity;
+import io.lecture.storage.db.core.lecture.entity.QLectureEntity;
+import io.lecture.storage.db.core.lecture.entity.QLectureRegsEntity;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -21,8 +24,23 @@ public class LectureQueryDslRepository {
         return queryFactory
                 .select(qLecture)
                 .from(qLecture)
-                .join(qLectureRegs).on(qLecture.id.eq(qLectureRegs.lectureId))
+                .innerJoin(qLectureRegs).on(qLecture.id.eq(qLectureRegs.lectureId))
                 .where(qLectureRegs.employeeNumber.eq(employeeNumber))
+                .fetch();
+    }
+
+    public List<LectureEntity> findPopularLectures(LocalDateTime datetime) {
+        QLectureEntity qLecture = QLectureEntity.lectureEntity;
+        QLectureRegsEntity qLectureRegs = QLectureRegsEntity.lectureRegsEntity;
+
+        return queryFactory
+                .select(qLecture)
+                .from(qLectureRegs)
+                .innerJoin(qLecture)
+                .on(qLecture.id.eq(qLectureRegs.lectureId))
+                .where(qLectureRegs.createdAt.goe(datetime))
+                .groupBy(qLecture.id)
+                .orderBy(qLectureRegs.lectureId.count().desc())
                 .fetch();
     }
 }
