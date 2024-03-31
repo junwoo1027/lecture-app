@@ -264,7 +264,7 @@ GET /api/v1/employee/{employeeNumber}/lectures
 - 최근 3일간 가장 신청이 많은 순으로 조회한다.
 ##### 요청
 ```json
-GET /api/v1/lectures/recent-popluar
+GET /api/v1/lectures/recent-popular
 ```
 
 ##### 응답
