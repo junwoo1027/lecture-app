@@ -18,9 +18,4 @@ public class TestConfiguration {
         return new JPAQueryFactory(entityManager);
     }
 
-    @Bean
-    public LectureQueryDslRepository lectureQueryDslRepository() {
-        return new LectureQueryDslRepository(jpaQueryFactory());
-    }
-
 }
