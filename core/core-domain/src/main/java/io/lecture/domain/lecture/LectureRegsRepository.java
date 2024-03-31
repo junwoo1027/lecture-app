@@ -8,6 +8,7 @@ import java.util.List;
 
 @Repository
 public interface LectureRegsRepository {
+
     Long apply(NewLectureRegs lectureRegs);
 
     boolean existsByEmployeeNumberAndLectureId(int employeeNumber, Long lectureId);
@@ -19,4 +20,5 @@ public interface LectureRegsRepository {
     void cancel(Long lectureRegsId);
 
     List<LectureRegs> getLectureRegsListByLecture(Long lectureId);
+
 }

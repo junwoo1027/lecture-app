@@ -6,19 +6,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record FindPopularLecturesResponse(
-        String lecturer,
-        String hall,
-        int seats,
-        LocalDateTime startAt,
-        String description
-) {
+public record FindPopularLecturesResponse(String lecturer, String hall, int seats, LocalDateTime startAt,
+        String description) {
     public static List<FindPopularLecturesResponse> of(List<Lecture> lectures) {
-        return lectures.stream().map(each -> new FindPopularLecturesResponse(each.lecturer(),
-                        each.hall(),
-                        each.seats(),
-                        each.startAt(),
-                        each.description()))
-                .collect(Collectors.toList());
+        return lectures.stream()
+            .map(each -> new FindPopularLecturesResponse(each.lecturer(), each.hall(), each.seats(), each.startAt(),
+                    each.description()))
+            .collect(Collectors.toList());
     }
 }

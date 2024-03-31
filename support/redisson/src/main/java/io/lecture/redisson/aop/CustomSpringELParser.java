@@ -5,6 +5,7 @@ import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 
 public class CustomSpringELParser {
+
     private CustomSpringELParser() {
     }
 
@@ -18,4 +19,5 @@ public class CustomSpringELParser {
 
         return parser.parseExpression(key).getValue(context, Object.class);
     }
+
 }

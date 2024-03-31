@@ -1,7 +1,9 @@
 package io.lecture.domain.error;
 
 public class CoreException extends RuntimeException {
+
     private final CoreErrorType errorType;
+
     private final Object data;
 
     public CoreException(CoreErrorType errorType) {
@@ -21,4 +23,5 @@ public class CoreException extends RuntimeException {
     public Object getData() {
         return data;
     }
+
 }

@@ -1,7 +1,9 @@
 package io.lecture.core.api.support.error;
 
 public class CoreApiException extends RuntimeException {
+
     private final CoreApiErrorType coreApiErrorType;
+
     private final Object data;
 
     public CoreApiException(CoreApiErrorType coreApiErrorType) {
@@ -23,4 +25,5 @@ public class CoreApiException extends RuntimeException {
     public Object getData() {
         return data;
     }
+
 }

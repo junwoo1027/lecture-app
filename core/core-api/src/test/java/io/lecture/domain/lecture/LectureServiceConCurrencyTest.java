@@ -43,8 +43,10 @@ public class LectureServiceConCurrencyTest {
         for (int i = 0; i < numberOfThreads; i++) {
             executorService.submit(() -> {
                 try {
-                    lectureService.apply("강연신청", new NewLectureRegs(ThreadLocalRandom.current().nextInt(10000, 100000), lectureId));
-                } finally {
+                    lectureService.apply("강연신청",
+                            new NewLectureRegs(ThreadLocalRandom.current().nextInt(10000, 100000), lectureId));
+                }
+                finally {
                     latch.countDown();
                 }
             });
@@ -55,4 +57,5 @@ public class LectureServiceConCurrencyTest {
         int count = lectureRegsRepository.countByLectureId(lectureId);
         assertThat(count).isEqualTo(10);
     }
+
 }

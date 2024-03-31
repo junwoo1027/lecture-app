@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class QueryDslConfig {
+
     private final EntityManager entityManager;
 
     public QueryDslConfig(EntityManager entityManager) {
@@ -14,7 +15,8 @@ public class QueryDslConfig {
     }
 
     @Bean
-    public JPAQueryFactory jpaQueryFactory(){
+    public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(entityManager);
     }
+
 }

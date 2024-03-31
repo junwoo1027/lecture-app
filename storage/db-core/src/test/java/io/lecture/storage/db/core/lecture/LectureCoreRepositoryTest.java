@@ -18,13 +18,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import({ LectureCoreRepository.class, LectureQueryDslRepository.class })
 class LectureCoreRepositoryTest {
 
-    @Autowired LectureCoreRepository lectureCoreRepository;
+    @Autowired
+    LectureCoreRepository lectureCoreRepository;
 
-    @Autowired LectureJpaRepository lectureJpaRepository;
+    @Autowired
+    LectureJpaRepository lectureJpaRepository;
 
-    @Autowired LectureRegsJpaRepository lectureRegsJpaRepository;
+    @Autowired
+    LectureRegsJpaRepository lectureRegsJpaRepository;
 
-    @Autowired LectureQueryDslRepository lectureQueryDslRepository;
+    @Autowired
+    LectureQueryDslRepository lectureQueryDslRepository;
 
     @Test
     @DisplayName("강연 등록이 정상 동작한다")
@@ -66,4 +70,5 @@ class LectureCoreRepositoryTest {
         assertThat(results).extracting("startAt").containsExactlyInAnyOrder(startAt1, startAt2);
         assertThat(results).extracting("description").containsExactlyInAnyOrder("스프링 강연", "JPA 강연");
     }
+
 }

@@ -5,20 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
-public record NewLectureRequest(
-        @NotNull String lecturer,
-        @NotNull String hall,
-        @NotNull Integer seats,
-        @NotNull LocalDateTime startAt,
-        @NotNull String description
-) {
+public record NewLectureRequest(@NotNull String lecturer, @NotNull String hall, @NotNull Integer seats,
+        @NotNull LocalDateTime startAt, @NotNull String description) {
     public NewLecture toNewLecture() {
-        return new NewLecture(
-                this.lecturer,
-                this.hall,
-                this.seats,
-                this.startAt,
-                this.description
-        );
+        return new NewLecture(this.lecturer, this.hall, this.seats, this.startAt, this.description);
     }
 }

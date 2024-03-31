@@ -7,8 +7,10 @@ import jakarta.persistence.Entity;
 
 @Entity(name = "lecture_regs")
 public class LectureRegsEntity extends BaseEntity {
+
     @Column(name = "employee_number")
     private int employeeNumber;
+
     @Column(name = "lecture_id")
     private Long lectureId;
 
@@ -29,10 +31,7 @@ public class LectureRegsEntity extends BaseEntity {
     }
 
     public LectureRegs toLectureRegs() {
-        return new LectureRegs(
-                super.getId(),
-                this.employeeNumber,
-                this.lectureId
-        );
+        return new LectureRegs(super.getId(), this.employeeNumber, this.lectureId);
     }
+
 }

@@ -5,8 +5,11 @@ import io.lecture.core.api.support.error.CoreApiErrorType;
 import io.lecture.domain.error.CoreErrorType;
 
 public class ApiResponse<S> {
+
     private final ResultType result;
+
     private final S data;
+
     private final CoreApiErrorMessage error;
 
     private ApiResponse(ResultType result, S data, CoreApiErrorMessage error) {
@@ -39,7 +42,6 @@ public class ApiResponse<S> {
         return new ApiResponse<>(ResultType.ERROR, null, new CoreApiErrorMessage(error, errorData));
     }
 
-
     public ResultType getResult() {
         return result;
     }
@@ -51,5 +53,5 @@ public class ApiResponse<S> {
     public CoreApiErrorMessage getError() {
         return error;
     }
-}
 
+}

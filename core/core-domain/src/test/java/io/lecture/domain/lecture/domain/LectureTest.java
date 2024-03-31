@@ -27,4 +27,5 @@ class LectureTest {
         assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1001);
         assertThat(thrown.getErrorType().getMessage()).isEqualTo("Lecture has been exceeded.");
     }
+
 }

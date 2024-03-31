@@ -3,8 +3,11 @@ package io.lecture.core.api.support.error;
 import io.lecture.domain.error.CoreErrorType;
 
 public class CoreApiErrorMessage {
+
     private final String code;
+
     private final String message;
+
     private final Object data;
 
     public CoreApiErrorMessage(CoreApiErrorType coreApiErrorType) {
@@ -42,4 +45,5 @@ public class CoreApiErrorMessage {
     public Object getData() {
         return data;
     }
+
 }

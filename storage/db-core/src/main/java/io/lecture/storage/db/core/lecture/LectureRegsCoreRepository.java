@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class LectureRegsCoreRepository implements LectureRegsRepository {
+
     private final LectureRegsJpaRepository lectureRegsJpaRepository;
 
     public LectureRegsCoreRepository(LectureRegsJpaRepository lectureRegsJpaRepository) {
@@ -20,9 +21,9 @@ public class LectureRegsCoreRepository implements LectureRegsRepository {
 
     @Override
     public Long apply(NewLectureRegs lectureRegs) {
-        return this.lectureRegsJpaRepository.save(
-                new LectureRegsEntity(lectureRegs.employeeNumber(), lectureRegs.lectureId())
-        ).getId();
+        return this.lectureRegsJpaRepository
+            .save(new LectureRegsEntity(lectureRegs.employeeNumber(), lectureRegs.lectureId()))
+            .getId();
     }
 
     @Override
@@ -37,7 +38,8 @@ public class LectureRegsCoreRepository implements LectureRegsRepository {
 
     @Override
     public LectureRegs findLectureRegsByEmployeeNumberAndLectureId(int employeeNumber, Long lectureId) {
-        return this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId).toLectureRegs();
+        return this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId)
+            .toLectureRegs();
     }
 
     @Transactional
@@ -49,6 +51,9 @@ public class LectureRegsCoreRepository implements LectureRegsRepository {
     @Override
     public List<LectureRegs> getLectureRegsListByLecture(Long lectureId) {
         return this.lectureRegsJpaRepository.findAllByLectureId(lectureId)
-                .stream().map(LectureRegsEntity::toLectureRegs).collect(Collectors.toList());
+            .stream()
+            .map(LectureRegsEntity::toLectureRegs)
+            .collect(Collectors.toList());
     }
+
 }

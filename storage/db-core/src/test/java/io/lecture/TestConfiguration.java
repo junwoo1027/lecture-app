@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class TestConfiguration {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -21,4 +22,5 @@ public class TestConfiguration {
     public LectureQueryDslRepository lectureQueryDslRepository() {
         return new LectureQueryDslRepository(jpaQueryFactory());
     }
+
 }

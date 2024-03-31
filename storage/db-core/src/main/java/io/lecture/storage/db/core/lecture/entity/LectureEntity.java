@@ -8,10 +8,15 @@ import java.time.LocalDateTime;
 
 @Entity(name = "lecture")
 public class LectureEntity extends BaseEntity {
+
     private String lecturer;
+
     private String hall;
+
     private int seats;
+
     private LocalDateTime startAt;
+
     private String description;
 
     public LectureEntity() {
@@ -46,13 +51,7 @@ public class LectureEntity extends BaseEntity {
     }
 
     public Lecture toLecture() {
-        return new Lecture(
-                super.getId(),
-                this.lecturer,
-                this.hall,
-                this.seats,
-                this.startAt,
-                this.description
-        );
+        return new Lecture(super.getId(), this.lecturer, this.hall, this.seats, this.startAt, this.description);
     }
+
 }

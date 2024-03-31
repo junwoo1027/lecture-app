@@ -21,4 +21,5 @@ public @interface RedissonLock {
 
     /** 락의 시간 단위 */
     TimeUnit timeUnit() default TimeUnit.SECONDS;
+
 }

@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface LectureRepository {
+
     Long append(NewLecture lecture);
 
     List<Lecture> findAll();
@@ -18,4 +19,5 @@ public interface LectureRepository {
     List<Lecture> findLecturesByEmployee(int employeeNumber);
 
     List<Lecture> findPopularLectures(LocalDateTime dateTime);
+
 }

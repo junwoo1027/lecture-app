@@ -5,11 +5,5 @@ import io.lecture.domain.error.CoreException;
 
 import java.time.LocalDateTime;
 
-public record NewLecture(
-        String lecturer,
-        String hall,
-        int seats,
-        LocalDateTime startAt,
-        String description
-) {
+public record NewLecture(String lecturer, String hall, int seats, LocalDateTime startAt, String description) {
 }

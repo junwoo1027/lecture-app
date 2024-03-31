@@ -12,7 +12,9 @@ import java.util.List;
 
 @Service
 public class LectureService {
+
     private final LectureRepository lectureRepository;
+
     private final LectureRegsRepository lectureRegsRepository;
 
     public LectureService(LectureRepository lectureRepository, LectureRegsRepository lectureRegsRepository) {
@@ -43,7 +45,8 @@ public class LectureService {
     }
 
     public void cancel(CancelLectureRegs cancelLectureRegs) {
-        LectureRegs lectureRegs = findLectureRegistrationsByLecture(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+        LectureRegs lectureRegs = findLectureRegistrationsByLecture(cancelLectureRegs.employeeNumber(),
+                cancelLectureRegs.lectureId());
         this.lectureRegsRepository.cancel(lectureRegs.id());
     }
 
@@ -61,7 +64,8 @@ public class LectureService {
     }
 
     private LectureRegs findLectureRegistrationsByLecture(int employeeNumber, Long lectureId) {
-        LectureRegs lectureRegs = this.lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
+        LectureRegs lectureRegs = this.lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber,
+                lectureId);
         if (lectureRegs == null) {
             throw new CoreException(CoreErrorType.NOT_FOUND_DATA);
         }
@@ -91,4 +95,5 @@ public class LectureService {
         int appliedCount = this.lectureRegsRepository.countByLectureId(lectureRegs.lectureId());
         lecture.isExceeded(appliedCount);
     }
+
 }

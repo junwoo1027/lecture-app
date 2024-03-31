@@ -27,34 +27,32 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest
 class LectureControllerTest {
 
-    @Autowired private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Autowired private ObjectMapper objectMapper;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    @MockBean private LectureService lectureService;
+    @MockBean
+    private LectureService lectureService;
 
     @Test
     @DisplayName("[POST] 강연 등록 테스트")
     void lecture() throws Exception {
         // given
-        NewLectureRequest request = new NewLectureRequest(
-                "준우",
-                "1강연장",
-                10,
-                LocalDateTime.now(),
-                "스프링"
-        );
+        NewLectureRequest request = new NewLectureRequest("준우", "1강연장", 10, LocalDateTime.now(), "스프링");
         Long successId = 1L;
 
         when(lectureService.append(request.toNewLecture())).thenReturn(successId);
 
-        //when && then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/lectures")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.id").value(successId));
+        // when && then
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/api/v1/lectures")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.id").value(successId));
     }
 
     @Test
@@ -66,20 +64,19 @@ class LectureControllerTest {
         given(lectureService.findLectures()).willReturn(lectures);
 
         // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lectures")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
-                .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
-                .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
-                .andExpect(jsonPath("$.data[0].startAt").exists())
-                .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
-                .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
-                .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
-                .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
-                .andExpect(jsonPath("$.data[1].startAt").exists())
-                .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lectures").contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
+            .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
+            .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
+            .andExpect(jsonPath("$.data[0].startAt").exists())
+            .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
+            .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
+            .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
+            .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
+            .andExpect(jsonPath("$.data[1].startAt").exists())
+            .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
     }
 
     @Test
@@ -92,13 +89,14 @@ class LectureControllerTest {
 
         when(lectureService.apply("apply_lecture", request.toLectureRegs(lectureId))).thenReturn(lectureId);
 
-        //when && then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/lectures/1/apply")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"))
-                .andExpect(jsonPath("$.data.id").value(lectureId));
+        // when && then
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/api/v1/lectures/1/apply")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"))
+            .andExpect(jsonPath("$.data.id").value(lectureId));
     }
 
     @Test
@@ -109,12 +107,13 @@ class LectureControllerTest {
         CancelLectureRequest request = new CancelLectureRequest(employeeNumber);
         Long lectureId = 1L;
 
-        //when && then
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/lectures/" + lectureId + "/cancel")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result").value("SUCCESS"));
+        // when && then
+        mockMvc
+            .perform(MockMvcRequestBuilders.post("/api/v1/lectures/" + lectureId + "/cancel")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.result").value("SUCCESS"));
         verify(lectureService, times(1)).cancel(request.toCancelLectureRegs(lectureId));
     }
 
@@ -128,12 +127,13 @@ class LectureControllerTest {
         given(lectureService.findLectureRegistrationsByLecture(lectureId)).willReturn(lecturesRegsList);
 
         // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lectures/" + lectureId + "/employee")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data[0].employeeNumber").value(lecturesRegsList.get(0).employeeNumber()))
-                .andExpect(jsonPath("$.data[1].employeeNumber").value(lecturesRegsList.get(1).employeeNumber()));
+        mockMvc
+            .perform(MockMvcRequestBuilders.get("/api/v1/lectures/" + lectureId + "/employee")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data[0].employeeNumber").value(lecturesRegsList.get(0).employeeNumber()))
+            .andExpect(jsonPath("$.data[1].employeeNumber").value(lecturesRegsList.get(1).employeeNumber()));
     }
 
     @Test
@@ -146,20 +146,21 @@ class LectureControllerTest {
         given(lectureService.findLecturesByEmployee(employeeNumber)).willReturn(lectures);
 
         // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/" + employeeNumber + "/lectures")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
-                .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
-                .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
-                .andExpect(jsonPath("$.data[0].startAt").exists())
-                .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
-                .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
-                .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
-                .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
-                .andExpect(jsonPath("$.data[1].startAt").exists())
-                .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
+        mockMvc
+            .perform(MockMvcRequestBuilders.get("/api/v1/employee/" + employeeNumber + "/lectures")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
+            .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
+            .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
+            .andExpect(jsonPath("$.data[0].startAt").exists())
+            .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
+            .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
+            .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
+            .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
+            .andExpect(jsonPath("$.data[1].startAt").exists())
+            .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
     }
 
     @Test
@@ -171,57 +172,33 @@ class LectureControllerTest {
         given(lectureService.findPopularLectures()).willReturn(lectures);
 
         // when & then
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/lectures/recent-popular")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data").isArray())
-                .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
-                .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
-                .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
-                .andExpect(jsonPath("$.data[0].startAt").exists())
-                .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
-                .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
-                .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
-                .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
-                .andExpect(jsonPath("$.data[1].startAt").exists())
-                .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
+        mockMvc
+            .perform(MockMvcRequestBuilders.get("/api/v1/lectures/recent-popular")
+                .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.data").isArray())
+            .andExpect(jsonPath("$.data[0].lecturer").value(lectures.get(0).lecturer()))
+            .andExpect(jsonPath("$.data[0].hall").value(lectures.get(0).hall()))
+            .andExpect(jsonPath("$.data[0].seats").value(lectures.get(0).seats()))
+            .andExpect(jsonPath("$.data[0].startAt").exists())
+            .andExpect(jsonPath("$.data[0].description").value(lectures.get(0).description()))
+            .andExpect(jsonPath("$.data[1].lecturer").value(lectures.get(1).lecturer()))
+            .andExpect(jsonPath("$.data[1].hall").value(lectures.get(1).hall()))
+            .andExpect(jsonPath("$.data[1].seats").value(lectures.get(1).seats()))
+            .andExpect(jsonPath("$.data[1].startAt").exists())
+            .andExpect(jsonPath("$.data[1].description").value(lectures.get(1).description()));
     }
 
     private static List<Lecture> createLecturesData() {
-        List<Lecture> lectures = List.of(
-                new Lecture(
-                        1L,
-                        "준우",
-                        "1강연장",
-                        10,
-                        LocalDateTime.of(2024, 3, 01, 0, 0),
-                        "스프링"
-                ),
-                new Lecture(
-                        2L,
-                        "준우2",
-                        "2강연장",
-                        20,
-                        LocalDateTime.of(2024, 3, 31, 0, 0),
-                        "자바"
-                )
-        );
+        List<Lecture> lectures = List.of(new Lecture(1L, "준우", "1강연장", 10, LocalDateTime.of(2024, 3, 01, 0, 0), "스프링"),
+                new Lecture(2L, "준우2", "2강연장", 20, LocalDateTime.of(2024, 3, 31, 0, 0), "자바"));
         return lectures;
     }
 
     private static List<LectureRegs> createLecutreRegsListData(Long lectureId) {
-        List<LectureRegs> lecturesRegsList = List.of(
-                new LectureRegs(
-                        1L,
-                        11111,
-                        lectureId
-                ),
-                new LectureRegs(
-                        2L,
-                        22222,
-                        lectureId
-                )
-        );
+        List<LectureRegs> lecturesRegsList = List.of(new LectureRegs(1L, 11111, lectureId),
+                new LectureRegs(2L, 22222, lectureId));
         return lecturesRegsList;
     }
+
 }

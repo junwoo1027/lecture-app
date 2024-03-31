@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class LectureController {
+
     private final LectureService lectureService;
 
     public LectureController(LectureService lectureService) {
@@ -38,29 +39,22 @@ public class LectureController {
 
     /** 강연 신청 */
     @PostMapping("/lectures/{lectureId}/apply")
-    public ApiResponse<ApplyLectureResponse> applyLecture(
-            @PathVariable Long lectureId,
-            @Valid @RequestBody ApplyLectureRequest request
-    ) {
+    public ApiResponse<ApplyLectureResponse> applyLecture(@PathVariable Long lectureId,
+            @Valid @RequestBody ApplyLectureRequest request) {
         Long successId = lectureService.apply("apply_lecture", request.toLectureRegs(lectureId));
         return ApiResponse.success(ApplyLectureResponse.of(successId));
     }
 
     /** 강연 취소 */
     @PostMapping("/lectures/{lectureId}/cancel")
-    public ApiResponse cancelLecture(
-            @PathVariable Long lectureId,
-            @Valid @RequestBody CancelLectureRequest request
-            ) {
+    public ApiResponse cancelLecture(@PathVariable Long lectureId, @Valid @RequestBody CancelLectureRequest request) {
         lectureService.cancel(request.toCancelLectureRegs(lectureId));
         return ApiResponse.success();
     }
 
     /** 강연 별 신청자 목록 조회 */
     @GetMapping("/lectures/{lectureId}/employee")
-    public ApiResponse<List<FindEmployeeListResponse>> findEmployeeList(
-            @PathVariable Long lectureId
-    ) {
+    public ApiResponse<List<FindEmployeeListResponse>> findEmployeeList(@PathVariable Long lectureId) {
         List<LectureRegs> lectureRegsList = lectureService.findLectureRegistrationsByLecture(lectureId);
         return ApiResponse.success(FindEmployeeListResponse.of(lectureRegsList));
     }
@@ -68,17 +62,16 @@ public class LectureController {
     /** 신청한 강연 목록 조회 */
     @GetMapping("/employee/{employeeNumber}/lectures")
     public ApiResponse<List<FindLectureForEmployeeResponse>> FindLecturesForEmployee(
-            @PathVariable("employeeNumber") Integer employeeNumberNumber
-    ) {
+            @PathVariable("employeeNumber") Integer employeeNumberNumber) {
         List<Lecture> lectures = lectureService.findLecturesByEmployee(employeeNumberNumber);
         return ApiResponse.success(FindLectureForEmployeeResponse.of(lectures));
     }
 
     /** 최근 3일간 인기강연 목록 조회 */
     @GetMapping("/lectures/recent-popular")
-    public ApiResponse<List<FindPopularLecturesResponse>> findPopularLectures(
-    ) {
+    public ApiResponse<List<FindPopularLecturesResponse>> findPopularLectures() {
         List<Lecture> lectures = lectureService.findPopularLectures();
         return ApiResponse.success(FindPopularLecturesResponse.of(lectures));
     }
+
 }

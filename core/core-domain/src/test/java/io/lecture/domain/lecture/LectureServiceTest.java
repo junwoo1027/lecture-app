@@ -62,10 +62,8 @@ class LectureServiceTest {
         // given
         LocalDateTime startAt1 = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
         LocalDateTime startAt2 = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        List<Lecture> lectures = List.of(
-                new Lecture(1L,"김준우", "1강연장", 10, startAt1, "스프링 강연"),
-                new Lecture(2L,"준우", "2강연장", 20, startAt2, "JPA 강연")
-        );
+        List<Lecture> lectures = List.of(new Lecture(1L, "김준우", "1강연장", 10, startAt1, "스프링 강연"),
+                new Lecture(2L, "준우", "2강연장", 20, startAt2, "JPA 강연"));
 
         when(lectureRepository.findAll()).thenReturn(lectures);
 
@@ -90,10 +88,12 @@ class LectureServiceTest {
         final Long lectureId = 1L;
         NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture(1L,"김준우", "1강연장", 5, startAt, "스프링 강연");
+        Lecture lecture = new Lecture(1L, "김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
-        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(false);
+        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId()))
+            .thenReturn(false);
         when(lectureRegsRepository.countByLectureId(lectureId)).thenReturn(3);
         when(lectureRegsRepository.apply(lectureRegs)).thenReturn(1L);
 
@@ -103,7 +103,8 @@ class LectureServiceTest {
         // then
         assertThat(successId).isEqualTo(1L);
         verify(lectureRepository, times(1)).findById(lectureId);
-        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId());
+        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId());
         verify(lectureRegsRepository, times(1)).countByLectureId(lectureId);
         verify(lectureRegsRepository, times(1)).apply(lectureRegs);
     }
@@ -132,17 +133,20 @@ class LectureServiceTest {
         final Long lectureId = 1L;
         NewLectureRegs lectureRegs = new NewLectureRegs(employeeNumber, lectureId);
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        Lecture lecture = new Lecture(1L,"김준우", "1강연장", 5, startAt, "스프링 강연");
+        Lecture lecture = new Lecture(1L, "김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
-        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(true);
+        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId()))
+            .thenReturn(true);
 
         // when && then
         CoreException thrown = assertThrows(CoreException.class, () -> lectureService.apply("", lectureRegs));
         assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1002);
         assertThat(thrown.getErrorType().getMessage()).isEqualTo("Already applied for a lecture.");
         verify(lectureRepository, times(1)).findById(lectureId);
-        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId());
+        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId());
     }
 
     @Test
@@ -156,7 +160,9 @@ class LectureServiceTest {
         Lecture lecture = new Lecture(1L, "김준우", "1강연장", 5, startAt, "스프링 강연");
 
         when(lectureRepository.findById(lectureId)).thenReturn(lecture);
-        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId())).thenReturn(false);
+        when(lectureRegsRepository.existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId()))
+            .thenReturn(false);
         when(lectureRegsRepository.countByLectureId(lectureId)).thenReturn(5);
 
         // when && then
@@ -164,7 +170,8 @@ class LectureServiceTest {
         assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1001);
         assertThat(thrown.getErrorType().getMessage()).isEqualTo("Lecture has been exceeded.");
         verify(lectureRepository, times(1)).findById(lectureId);
-        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(), lectureRegs.lectureId());
+        verify(lectureRegsRepository, times(1)).existsByEmployeeNumberAndLectureId(lectureRegs.employeeNumber(),
+                lectureRegs.lectureId());
         verify(lectureRegsRepository, times(1)).countByLectureId(lectureId);
     }
 
@@ -177,14 +184,17 @@ class LectureServiceTest {
         CancelLectureRegs cancelLectureRegs = new CancelLectureRegs(employeeNumber, lectureId);
         LectureRegs lectureRegs = new LectureRegs(2L, employeeNumber, cancelLectureRegs.lectureId());
 
-        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId())).thenReturn(lectureRegs);
+        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(),
+                cancelLectureRegs.lectureId()))
+            .thenReturn(lectureRegs);
 
         // when
         lectureService.cancel(cancelLectureRegs);
 
         // then
         verify(lectureRegsRepository, times(1)).cancel(lectureRegs.id());
-        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(
+                cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
     }
 
     @Test
@@ -195,13 +205,16 @@ class LectureServiceTest {
         long lectureId = 1L;
         CancelLectureRegs cancelLectureRegs = new CancelLectureRegs(employeeNumber, lectureId);
 
-        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId())).thenReturn(null);
+        when(lectureRegsRepository.findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(),
+                cancelLectureRegs.lectureId()))
+            .thenReturn(null);
 
         // when && then
         CoreException thrown = assertThrows(CoreException.class, () -> lectureService.cancel(cancelLectureRegs));
         assertThat(thrown.getErrorType().getCode()).isEqualTo(CoreErrorCode.E1000);
         assertThat(thrown.getErrorType().getMessage()).isEqualTo("Not found data.");
-        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
+        verify(lectureRegsRepository, times(1)).findLectureRegsByEmployeeNumberAndLectureId(
+                cancelLectureRegs.employeeNumber(), cancelLectureRegs.lectureId());
     }
 
     @Test
@@ -209,11 +222,11 @@ class LectureServiceTest {
     void findLectureRegsList() {
         // given
         Long lectureId = 1L;
-        List<LectureRegs> allLectureRegs = List.of(
-                new LectureRegs(1L, 11111, 1L),
-                new LectureRegs(2L, 22222, 1L),
+        List<LectureRegs> allLectureRegs = List.of(new LectureRegs(1L, 11111, 1L), new LectureRegs(2L, 22222, 1L),
                 new LectureRegs(3L, 33333, 2L));
-        List<LectureRegs> expectedList = allLectureRegs.stream().filter(each -> each.lectureId() == lectureId).collect(Collectors.toList());
+        List<LectureRegs> expectedList = allLectureRegs.stream()
+            .filter(each -> each.lectureId() == lectureId)
+            .collect(Collectors.toList());
 
         when(lectureRegsRepository.getLectureRegsListByLecture(lectureId)).thenReturn(expectedList);
 
@@ -231,30 +244,24 @@ class LectureServiceTest {
     @DisplayName("신청한 강연 목록 조회가 정상 동작한다")
     void findLecturesByEmployee() {
         LocalDateTime startAt = LocalDateTime.of(2024, 3, 27, 0, 0, 0);
-        List<Lecture> lectures = List.of(
-                new Lecture(1L, "김준우", "1강연장", 10, startAt, "스프링 강연"),
+        List<Lecture> lectures = List.of(new Lecture(1L, "김준우", "1강연장", 10, startAt, "스프링 강연"),
                 new Lecture(2L, "김준우", "2강연장", 11, startAt, "JPA 강연"),
-                new Lecture(3L, "김준우", "3강연장", 12, startAt, "자바 강연")
-        );
+                new Lecture(3L, "김준우", "3강연장", 12, startAt, "자바 강연"));
 
         int employeeNumber1 = 11111;
-        List<LectureRegs> allLectureRegs = List.of(
-                new LectureRegs(1L, employeeNumber1, lectures.get(0).id()),
+        List<LectureRegs> allLectureRegs = List.of(new LectureRegs(1L, employeeNumber1, lectures.get(0).id()),
                 new LectureRegs(2L, employeeNumber1, lectures.get(1).id()),
-                new LectureRegs(3L, 22222, lectures.get(0).id()),
-                new LectureRegs(4L, 22222, lectures.get(1).id()),
-                new LectureRegs(5L, 22222, lectures.get(2).id())
-        );
+                new LectureRegs(3L, 22222, lectures.get(0).id()), new LectureRegs(4L, 22222, lectures.get(1).id()),
+                new LectureRegs(5L, 22222, lectures.get(2).id()));
 
         // Create a map of lectures for quick lookup by ID
-        Map<Long, Lecture> lectureMap = lectures.stream()
-                .collect(Collectors.toMap(Lecture::id, lecture -> lecture));
+        Map<Long, Lecture> lectureMap = lectures.stream().collect(Collectors.toMap(Lecture::id, lecture -> lecture));
 
         // Filter and collect matching lectures for a specific employee
         List<Lecture> expectedList = allLectureRegs.stream()
-                .filter(reg -> reg.employeeNumber() == employeeNumber1)
-                .map(reg -> lectureMap.get(reg.lectureId()))
-                .collect(Collectors.toList());
+            .filter(reg -> reg.employeeNumber() == employeeNumber1)
+            .map(reg -> lectureMap.get(reg.lectureId()))
+            .collect(Collectors.toList());
 
         when(lectureRepository.findLecturesByEmployee(employeeNumber1)).thenReturn(expectedList);
 
@@ -281,26 +288,21 @@ class LectureServiceTest {
 
             LocalDateTime threeDaysAgo = now.minusDays(3);
             int employeeNumber1 = 11111;
-            List<LectureRegs> allLectureRegs = List.of(
-                    new LectureRegs(1L, employeeNumber1, 2L),
-                    new LectureRegs(2L, employeeNumber1, 2L),
-                    new LectureRegs(3L, 22222, 1L),
-                    new LectureRegs(4L, 22222, 2L),
-                    new LectureRegs(5L, 22222, 3L),
-                    new LectureRegs(6L, 33333, 1L)
-            );
+            List<LectureRegs> allLectureRegs = List.of(new LectureRegs(1L, employeeNumber1, 2L),
+                    new LectureRegs(2L, employeeNumber1, 2L), new LectureRegs(3L, 22222, 1L),
+                    new LectureRegs(4L, 22222, 2L), new LectureRegs(5L, 22222, 3L), new LectureRegs(6L, 33333, 1L));
 
             // 강의 ID별 등록 횟수를 카운트
             Map<Long, Long> lectureCount = allLectureRegs.stream()
-                    .collect(Collectors.groupingBy(LectureRegs::lectureId, Collectors.counting()));
+                .collect(Collectors.groupingBy(LectureRegs::lectureId, Collectors.counting()));
 
             // 카운트 기반으로 내림차순 정렬
             List<Map.Entry<Long, Long>> sortedLectures = new ArrayList<>(lectureCount.entrySet());
             sortedLectures.sort(Map.Entry.<Long, Long>comparingByValue().reversed());
 
             List<Lecture> expectedList = sortedLectures.stream()
-                    .map(each -> new Lecture(each.getKey(), "test", "test", 2, fixedDateTime, "test")).
-                    collect(Collectors.toList());
+                .map(each -> new Lecture(each.getKey(), "test", "test", 2, fixedDateTime, "test"))
+                .collect(Collectors.toList());
 
             // 2L 3개
             // 1L 2개
@@ -318,4 +320,5 @@ class LectureServiceTest {
             verify(lectureRepository, times(1)).findPopularLectures(threeDaysAgo);
         }
     }
+
 }

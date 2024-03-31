@@ -20,11 +20,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(LectureRegsCoreRepository.class)
 class LectureRegsCoreRepositoryTest {
 
-    @Autowired LectureRegsCoreRepository lectureRegsCoreRepository;
+    @Autowired
+    LectureRegsCoreRepository lectureRegsCoreRepository;
 
-    @Autowired LectureRegsJpaRepository lectureRegsJpaRepository;
+    @Autowired
+    LectureRegsJpaRepository lectureRegsJpaRepository;
 
-    @Autowired LectureJpaRepository lectureJpaRepository;
+    @Autowired
+    LectureJpaRepository lectureJpaRepository;
 
     @BeforeEach
     void setup() {
@@ -105,7 +108,8 @@ class LectureRegsCoreRepositoryTest {
         lectureRegsJpaRepository.save(lectureRegsEntity);
 
         // when
-        LectureRegs result = this.lectureRegsCoreRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
+        LectureRegs result = this.lectureRegsCoreRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber,
+                lectureId);
 
         // then
         assertThat(result.employeeNumber()).isEqualTo(employeeNumber);
@@ -157,4 +161,5 @@ class LectureRegsCoreRepositoryTest {
         LectureEntity lectureEntity = new LectureEntity("김준우", "1강연장", 5, startAt, "스프링 강연");
         lectureJpaRepository.save(lectureEntity);
     }
+
 }
