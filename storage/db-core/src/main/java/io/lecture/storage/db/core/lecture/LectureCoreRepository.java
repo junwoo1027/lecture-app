@@ -38,12 +38,10 @@ public class LectureCoreRepository implements LectureRepository {
     @Override
     public Lecture findById(Long id) {
         LectureEntity lectureEntity = this.lectureJpaRepository.findById(id).orElse(null);
-        if (lectureEntity != null) {
-            return lectureEntity.toLecture();
-        }
-        else {
+        if (lectureEntity == null) {
             return null;
         }
+        return lectureEntity.toLecture();
     }
 
     @Override

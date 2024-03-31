@@ -22,14 +22,17 @@ public class LectureService {
         this.lectureRegsRepository = lectureRegsRepository;
     }
 
+    /** 강연 등록 */
     public Long append(NewLecture lecture) {
         return this.lectureRepository.append(lecture);
     }
 
+    /** 전체 강연 목록 조회 */
     public List<Lecture> findLectures() {
         return this.lectureRepository.findAll();
     }
 
+    /** 강연 신청 */
     @RedissonLock(key = "#lockName")
     public Long apply(String lockName, NewLectureRegs lectureRegs) {
         this.isValidEmployeeNumber(lectureRegs.employeeNumber());
@@ -44,20 +47,24 @@ public class LectureService {
         return this.lectureRegsRepository.apply(lectureRegs);
     }
 
+    /** 신청 강연 취소 */
     public void cancel(CancelLectureRegs cancelLectureRegs) {
         LectureRegs lectureRegs = findLectureRegistrationsByLecture(cancelLectureRegs.employeeNumber(),
                 cancelLectureRegs.lectureId());
         this.lectureRegsRepository.cancel(lectureRegs.id());
     }
 
+    /** 강연 신청자 목록 조회 */
     public List<LectureRegs> findLectureRegistrationsByLecture(Long lectureId) {
         return this.lectureRegsRepository.getLectureRegsListByLecture(lectureId);
     }
 
+    /** 신청한 강연 목록 조회 */
     public List<Lecture> findLecturesByEmployee(int employeeNumber) {
         return this.lectureRepository.findLecturesByEmployee(employeeNumber);
     }
 
+    /** 실시간 인기 강연 목록 조회 */
     public List<Lecture> findPopularLectures() {
         LocalDateTime threeDaysAgo = LocalDateTime.now().minusDays(3);
         return this.lectureRepository.findPopularLectures(threeDaysAgo);

@@ -37,8 +37,11 @@ public class LectureRegsCoreRepository implements LectureRegsRepository {
 
     @Override
     public LectureRegs findLectureRegsByEmployeeNumberAndLectureId(int employeeNumber, Long lectureId) {
-        return this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId)
-            .toLectureRegs();
+        LectureRegsEntity lectureRegsEntity = this.lectureRegsJpaRepository.findLectureRegsByEmployeeNumberAndLectureId(employeeNumber, lectureId);
+        if (lectureRegsEntity == null) {
+            return null;
+        }
+        return lectureRegsEntity.toLectureRegs();
     }
 
     @Transactional
