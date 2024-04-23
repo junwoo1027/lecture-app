@@ -208,9 +208,6 @@ POST /api/v1/lectures/{lectureId}/cancel
 ##### 요청
 ```json
 GET /api/v1/lectures/{lectureId}/employee
-{
-  "employeeNumber" : 12345
-}
 ```
 
 ##### 응답
